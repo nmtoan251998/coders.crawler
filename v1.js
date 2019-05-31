@@ -1,12 +1,11 @@
 /*
-TODO: Performance - Use Promise.all to async tasks
 TODO: Cleancode - Functionalize source code
 */
 
 const puppeteer = require('puppeteer');
 const fs = require('fs');
 
-const fullURL = 'https://www.instagram.com/tiffanyjuly10/';
+const fullURL = 'https://www.instagram.com/vitaminn.eyes/';
 
 (async () => {
     try {        
@@ -14,10 +13,10 @@ const fullURL = 'https://www.instagram.com/tiffanyjuly10/';
         const page = await browser.newPage();
         await page.goto(fullURL);
 
-        await page.screenshot({ path: __dirname + `/test.png` });
-        await page.pdf({ path: __dirname + `/test.pdf`, format: 'A4' });
-        const DOMContent = await page.content();
+        page.screenshot({ path: __dirname + `/test.png` });
+        page.pdf({ path: __dirname + `/test.pdf`, format: 'A4' });
 
+        const DOMContent = await page.content();
         fs.writeFile(__dirname + `/test.html`, DOMContent, function(err) {
             if(err) return console.log(err);
         }); 
@@ -36,10 +35,13 @@ const fullURL = 'https://www.instagram.com/tiffanyjuly10/';
     
             return result;
         })
+        
+        const JSONImgSrcsets = {
+            data: imgSrcsets.map(data => data)
+        }
+        const data = JSON.stringify(JSONImgSrcsets.data, null, '\t');
 
-        const JSONImgSrcsets = imgSrcsets.forEach(data => data)
-
-        fs.writeFile('test.json', JSON.stringify(JSONImgSrcsets, null, '\t'), 'utf8', (err) => {
+        fs.writeFile('test.json', data, 'utf8', (err) => {
             if(err) console.log(err)
         });
                 

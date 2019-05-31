@@ -1,3 +1,6 @@
+/*
+TODO: download more images by using more options from the documents
+*/
 const puppeteer = require('puppeteer');
 const fs = require('fs');
 const download = require('image-downloader');
@@ -47,7 +50,6 @@ function downloadImg() {
             })
     });
 }
-downloadImg();
 
 (async () => {
     try {        
@@ -56,7 +58,7 @@ downloadImg();
         await page.goto(fullURL);
 
         page.screenshot({ path: __dirname + `/test/test.png` });
-        page.pdf({ path: __dirname + `/test/test.pdf`, format: 'A4' });
+        page.pdf({ path: __dirname + `/test/test.pdf`, format: 'A4' });        
 
         // get data by using Promise.all
         const [DOMContent, fullAttrs] = await Promise.all([page.content(), getImgAttrs(page)]);
